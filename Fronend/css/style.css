@@ -1,182 +1,136 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
 }
 
-body{
-
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-
-
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* แก้ไข Path ตรงนี้ให้มั่นใจว่าโฟลเดอร์ assets อยู่ด้านนอกโฟลเดอร์ css */
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+        url("../assets/ku-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* เพิ่มเพื่อให้พื้นหลังนิ่งเวลาเลื่อนหน้าจอ */
 }
 
 /* กล่อง login */
-
-.login-box{
-
-width:350px;
-padding:50px;
-
-background:white;
-
-border-radius:15px;
-
-text-align:center;
-
-box-shadow:0 0 25px rgb(29, 66, 5);
-
+.login-box {
+    width: 350px;
+    padding: 40px; /* ปรับลดลงนิดหน่อยจาก 50px เพื่อให้ไม่เบียดเกินไป */
+    background: white;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(29, 66, 5, 0.5); /* ปรับสีเงาให้ดูนุ่มขึ้น */
 }
 
-/* โลโก้ */
-
-.logo{
-
-width:150px;
-margin-bottom:10px;
-
+.logo {
+    width: 150px;
+    margin-bottom: 10px;
 }
 
-/* เข้าสู้ระบบ */
+h2 {
+    color: #1c8132;
+    margin-bottom: 30px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 2px solid #006633;
+    outline: none;
+    font-size: 15px;
+}
+
+textarea {
+    resize: none;
+    height: 100px; /* กำหนดความสูงให้ textarea หน่อยครับ */
+}
+
+input:focus, textarea:focus {
+    border-color: #076614;
+    box-shadow: 0 0 8px rgba(41, 165, 10, 0.5);
+}
+
+/* ปุ่ม Login และ Status */
+.login-btn, .status-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #0c8b01, #123617);
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover, .status-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(103, 255, 1, 0.5);
+    background: linear-gradient(90deg, #22af15, #0b5515);
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background-image: url("../assets/ku-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    background:white;
+    padding:40px;
+    width:350px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    text-align:center;
+}
 
 h2{
-
-color:#1c8132;
-margin-bottom:30px;
-
+    color:#1e8449;
+    margin-bottom:20px;
 }
-
-/* input */
 
 input{
-
-width:100%;
-padding:12px;
-
-margin:10px 0;
-
-border-radius:8px;
-
-border:2px solid #006633;
-
-outline:none;
-
-font-size:15px;
-
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:10px;
+    border:2px solid #1e8449;
 }
 
-input:focus{
-
-border-color:#076614;
-box-shadow:0 0 8px rgba(41, 165, 10, 0.5);
-
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:20px;
+    background:linear-gradient(90deg,#2ecc71,#145a32);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
 }
 
-/* ปุ่ม */
-
-.login-btn{
-
-width:100%;
-padding:12px;
-
-margin-top:20px;
-
-border:none;
-
-border-radius:30px;
-
-background:linear-gradient(90deg,#0c8b01,#123617);
-
-color:rgb(255, 255, 255);
-
-font-weight:bold;
-
-font-size:16px;
-
-cursor:pointer;
-
-transition:0.3s;
-
+button:hover{
+    opacity:0.9;
 }
 
-.login-btn:hover{
-
-transform:scale(1.05);
-
-box-shadow:0 0 15px rgba(103, 255, 1, 0.5);
-
-}
-textarea{
-
-width:100%;
-padding:12px;
-
-margin:10px 0;
-
-border-radius:8px;
-
-border:2px solid #006633;
-
-outline:none;
-
-font-size:15px;
-
-resize:none;
-
-}
-
-textarea:focus{
-
-border-color:#e61313;
-box-shadow:0 0 8px rgba(236, 2, 2, 0.5);
-
-}
-.status-btn{
-
-width:100%;
-padding:12px;
-
-margin-top:10px;
-
-border:none;
-
-border-radius:30px;
-
-background:linear-gradient(90deg,#0c8b01,#123617);
-
-
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
-
-transition:0.3s;
-
-}
-
-.status-btn:hover{
-    transform:scale(1.05);
-
-background:linear-gradient(90deg,#22af15,#0b55159a);
-box-shadow:0 0 15px rgba(103, 255, 1, 0.5);
-
-}
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-
-background:
-linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-url("../assets/ku-bg.jpg");
-
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
+a{
+    text-decoration:none;
+    color:#1e8449;
 }
