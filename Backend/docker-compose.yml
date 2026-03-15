@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: Complaint
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ROOT
+      MYSQL_DATABASE: Webdb
+    ports:
+      - "8821:3306"
+    volumes:
+      - "mysql_Data_Complaint:/var/lib/mysql"
+    networks:
+      - ProjectComplaint
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpProjectComplaint
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ROOT
+      UPLOAD_LIMIT: 64M
+    ports:
+      - "8822:80"
+    depends_on:
+      - db
+    networks:
+      - ProjectComplaint
+    restart: always
+
+networks:
+  ProjectComplaint:
+    driver: bridge
+
+volumes:
+  mysql_Data_Complaint:
+    driver: local
