@@ -38,6 +38,7 @@ body {
 h2 {
     color: #1c8132;
     margin-bottom: 30px;
+<<<<<<< HEAD
 }
 
 input, textarea {
@@ -133,4 +134,47 @@ button:hover{
 a{
     text-decoration:none;
     color:#1e8449;
+=======
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 2px solid #006633;
+    outline: none;
+    font-size: 15px;
+}
+
+textarea {
+    resize: none;
+    height: 100px; /* กำหนดความสูงให้ textarea หน่อยครับ */
+}
+
+input:focus, textarea:focus {
+    border-color: #076614;
+    box-shadow: 0 0 8px rgba(41, 165, 10, 0.5);
+}
+
+/* ปุ่ม Login และ Status */
+.login-btn, .status-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #0c8b01, #123617);
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover, .status-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(103, 255, 1, 0.5);
+    background: linear-gradient(90deg, #22af15, #0b5515);
+>>>>>>> ce73a4837205b902b1bfb26b152558ade7944475
 }
