@@ -6,19 +6,10 @@ document.getElementById("registerForm").addEventListener("submit", function (e) 
     const email = document.getElementById("email").value
     const password = document.getElementById("password").value
     const confirmPassword = document.getElementById("confirmPassword").value
-
     if (password !== confirmPassword) {
         alert("รหัสผ่านไม่ตรงกัน")
         return
     }
-
-    alert("สมัครสมาชิกสำเร็จ")
-
-})
-document.getElementById("registerForm").addEventListener("submit", function (e) {
-
-    e.preventDefault()
-
     alert("สมัครสมาชิกสำเร็จ")
 
 })
