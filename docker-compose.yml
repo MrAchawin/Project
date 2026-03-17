@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   db:
     image: mysql:8.0
-    container_name: Complaint
+    container_name: ProjectComplaint_DB
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: ROOT
@@ -11,17 +9,15 @@ services:
     ports:
       - "8821:3306"
     volumes:
-      - "mysql_Data_Complaint:/var/lib/mysql"
+      - mysql_data:/var/lib/mysql
     networks:
-      - ProjectComplaint
-    restart: always
+      - complaint_net
 
   phpmyadmin:
     image: phpmyadmin:latest
-    container_name: phpProjectComplaint
+    container_name: ProjectComplaint_Admin
     environment:
-      PMA_HOST: db 
-      PMA_PORT: 3306
+      PMA_HOST: db
       PMA_USER: root
       PMA_PASSWORD: ROOT
     ports:
@@ -29,27 +25,24 @@ services:
     depends_on:
       - db
     networks:
-      - ProjectComplaint
-    restart: always
+      - complaint_net
 
   backend:
-    build: ./Backend 
-    container_name: backendComplaint
+    build: ./Backend
+    container_name: ProjectComplaint_Backend
     ports:
-      - "8001:8000"
+      - "8000:8000"
     volumes:
       - ./Backend:/app
-      - ./Backend/uploads:/app/uploads 
+      - /app/node_modules
     depends_on:
       - db
     networks:
-      - ProjectComplaint
-    restart: always
+      - complaint_net
 
 networks:
-  ProjectComplaint:
+  complaint_net:
     driver: bridge
 
 volumes:
-  mysql_Data_Complaint:
-    driver: local
+  mysql_data:
