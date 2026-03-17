@@ -1,56 +1,76 @@
-const express = require('express')
-const cors = require('cors')
-const mysql = require('mysql2/promise')
-const app = express()
-const port = 8000
+const express = require('express');
+const cors = require('cors');
+const mysql = require('mysql2/promise');
+const multer = require('multer');
+const path = require('path');
 
-app.use(cors())
-app.use(express.json())
+const app = express();
+const port = 8000;
 
-let conn = null
+app.use(cors());
+app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/'); // เก็บในโฟลเดอร์ uploads
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
+
+let conn = null;
 const initDB = async () => {
     conn = await mysql.createConnection({
-        host: 'localhost',
+        host: 'localhost', // ⚠️ ถ้าใช้ Docker เปลี่ยนเป็น 'db'
         user: 'root',
         password: 'ROOT',
         database: 'Webdb',
-        port: 8821
-    })
-}
+        port: 8821 // ⚠️ Docker ใช้ 3306
+    });
+};
 
-//เพิ่มข้อมูลร้องเรียน
-app.post('/complaints', async (req, res) => {
+app.post('/complaints', upload.single('image'), async (req, res) => {
     try {
-        const data = req.body
-        const sql = `INSERT INTO complaints (name, phone, type, detail, image) VALUES (?, ?, ?, ?, ?)`
-        const values = [
-            data.name,
-            data.phone,
-            data.type,
-            data.detail,
-            data.image
-        ]
-        const result = await conn.execute(sql, values)
+        const { name, phone, type, detail } = req.body;
+        const image = req.file ? req.file.filename : null;
+
+        const sql = `
+            INSERT INTO complaints (name, phone, type, detail, image)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+
+        await conn.execute(sql, [name, phone, type, detail, image]);
+
         res.json({
-            message: 'เพิ่มข้อมูลสำเร็จ',
-            data: result
-        })
+            message: 'เพิ่มข้อมูลสำเร็จ'
+        });
+
     } catch (error) {
+        console.error(error);
         res.status(500).json({
             message: 'เกิดข้อผิดพลาด',
             error: error.message
-        })
+        });
     }
-})
+});
 
-//ดูรายการร้องเรียน
 app.get('/complaints', async (req, res) => {
-    const [rows] = await conn.query('SELECT * FROM complaints')
-    res.json(rows)
-})
+    try {
+        const [rows] = await conn.query('SELECT * FROM complaints');
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({
+            message: 'ดึงข้อมูลไม่สำเร็จ',
+            error: error.message
+        });
+    }
+});
 
 app.listen(port, async () => {
-    await initDB()
-    console.log('Server running on port ' + port)
-
-})
+    await initDB();
+    console.log('Server running on port ' + port);
+});

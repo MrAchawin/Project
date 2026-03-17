@@ -20,13 +20,26 @@ services:
     image: phpmyadmin:latest
     container_name: phpProjectComplaint
     environment:
-      PMA_HOST: db
+      PMA_HOST: db 
       PMA_PORT: 3306
       PMA_USER: root
       PMA_PASSWORD: ROOT
-      UPLOAD_LIMIT: 64M
     ports:
       - "8822:80"
+    depends_on:
+      - db
+    networks:
+      - ProjectComplaint
+    restart: always
+
+  backend:
+    build: ./Backend 
+    container_name: backendComplaint
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./Backend:/app
+      - ./Backend/uploads:/app/uploads 
     depends_on:
       - db
     networks:
