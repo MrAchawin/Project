@@ -52,6 +52,22 @@ app.post('/complaints', upload.single('image'), async (req, res) => {
     }
 });
 
+app.get('/complaints/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [rows] = await db.execute("SELECT * FROM complaints WHERE id = ?", [id]);
+
+        if (rows.length > 0) {
+            res.json(rows[0]); // ส่งข้อมูลแถวแรกที่เจอไปให้ Frontend
+        } else {
+            res.status(404).json({ message: "ไม่พบข้อมูล" });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error!");
+    }
+});
+
 app.listen(8000, () => {
     console.log("Server is running on port 8000");
 });

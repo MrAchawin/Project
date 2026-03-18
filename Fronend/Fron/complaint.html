@@ -19,15 +19,25 @@
                 <input type="file" id="image" hidden>
                 <label for="image" class="upload-btn">แนบรูปภาพ</label>
                 <span id="fileName">ยังไม่ได้เลือกไฟล์</span>
-            </div>    
+            </div>
             <textarea id="detail" placeholder="รายละเอียดปัญหา" rows="4"></textarea>
             <button class="login-btn">ส่งเรื่อง</button>
         </form>
+
+        <div id="result-container"
+            style="display: none; margin-top: 15px; padding: 10px; background-color: #e8f5e9; border-radius: 8px;">
+            <p style="margin: 0; color: #2e7d32; font-weight: bold; text-align: center;">
+                ส่งเรื่องสำเร็จ! เลขที่เรื่อง: <span id="queue-number" style="color: #1b5e20;">-</span>
+            </p>
+        </div>
+
         <br>
-        <button class="status-btn" onclick="location.href='status.html'">
-            เช็คสถานะร้องเรียน
-        </button>
+        <button class="status-btn" onclick="location.href='status.html'"
+            style="width: 100%;">เช็คสถานะร้องเรียน</button>
+
+    </div> ```
     </div>
 
 </body>
+
 </html>
