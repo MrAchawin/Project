@@ -4,6 +4,7 @@ const multer = require('multer');
 const adminRoutes = require('./admin');
 const path = require('path');
 const db = require('./db');
+const bcrypt = require('bcryptjs');
 
 const app = express();
 
@@ -21,6 +22,23 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
+
+app.post('/register', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        
+        // เข้ารหัสรหัสผ่านก่อนบันทึก
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        const sql = "INSERT INTO Login (username, password, role) VALUES (?, ?, 'user')";
+        await db.execute(sql, [username, hashedPassword]);
+        
+        res.status(201).json({ message: "สมัครสมาชิกสำเร็จ!" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "ชื่อผู้ใช้นี้อาจมีคนใช้แล้ว หรือระบบฐานข้อมูลมีปัญหา" });
+    }
+});
 
 app.post('/complaints', upload.single('image'), async (req, res) => {
     try {
