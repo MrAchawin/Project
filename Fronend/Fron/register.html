@@ -2,20 +2,33 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - ระบบร้องเรียน</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <div class="container">
-        <h2>สมัครสมาชิก</h2>
-    <form id="registerForm">
-            <input type="text" id="username" placeholder="ชื่อผู้ใช้" required>
-            <input type="email" id="email" placeholder="อีเมล" required>
-            <input type="password" id="password" placeholder="รหัสผ่าน" required>
-            <input type="password" id="confirmPassword" placeholder="ยืนยันรหัสผ่าน" required>
-            <button class="register-btn">สมัครสมาชิก</button>
-        </form>
+        <div class="register-box">
+            <h2>สมัครสมาชิก</h2>
+            <form id="registerForm">
+                <div class="input-group">
+                    <input type="text" id="username" placeholder="กรอกชื่อผู้ใช้" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="กรอกรหัสผ่าน" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="confirmPassword" placeholder="กรอกรหัสผ่านอีกครั้ง" required>
+                </div>
+
+                <button type="submit" class="register-btn">สมัครสมาชิก</button>
+            </form>
+            <p>มีบัญชีอยู่แล้ว? <a href="index.html">เข้าสู่ระบบ</a></p>
+        </div>
     </div>
+
     <script src="../js/register.js"></script>
 </body>
 </html>
