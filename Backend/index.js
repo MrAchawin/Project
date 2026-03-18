@@ -52,6 +52,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
+
 // --- 2. ระบบเข้าสู่ระบบ (Login) ---
 app.post('/login', async (req, res) => {
     try {
@@ -86,5 +87,5 @@ app.post('/complaints', upload.single('image'), async (req, res) => {
 });
 
 app.listen(8000, '0.0.0.0', () => {
-    console.log("🚀 Server is running on port 8000");
+    console.log("Server is running on port 8000");
 });
