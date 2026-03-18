@@ -1,10 +1,13 @@
 const mysql = require('mysql2/promise');
 
-const db = mysql.createPool({
-    host: 'db',
+const pool = mysql.createPool({
+    host: 'db', // ชื่อ Service ใน docker-compose
     user: 'root',
     password: 'ROOT',
-    database: 'Webdb'
+    database: 'Webdb',
+    port: 3306,
+    waitForConnections: true,
+    connectionLimit: 10
 });
 
-module.exports = db;
+module.exports = pool;

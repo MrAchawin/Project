@@ -1,41 +1,23 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เข้าสู่ระบบ</title>
-
     <link rel="stylesheet" href="../css/style.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-
 <body>
-
     <div class="login-box">
-
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/KU_SubLogo.png" class="logo">
-
         <h2>เข้าสู่ระบบ</h2>
-
         <form id="loginForm">
-
             <input type="text" id="username" placeholder="Username" required>
-
             <input type="password" id="password" placeholder="Password" required>
-
             <button type="submit" class="login-btn">เข้าสู่ระบบ</button>
-
-            <button type="button" class="login-btn" onclick="location.href='register.html'">
-                สมัครสมาชิก
-            </button>
-
+            <button type="button" class="register-btn" onclick="location.href='register.html'">สมัครสมาชิก</button>
         </form>
-
     </div>
-
     <script src="../js/login.js"></script>
-
 </body>
-
 </html>
