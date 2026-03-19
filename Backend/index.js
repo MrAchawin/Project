@@ -3,7 +3,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const bcrypt = require('bcryptjs');
-const db = require('./db'); 
+const db = require('./db');
 
 const app = express();
 
@@ -93,13 +93,13 @@ app.get('/admin/complaints', async (req, res) => {
 app.put('/admin/complaints/:id/status', async (req, res) => {
     try {
         const { id } = req.params;
-        const { status } = req.body; 
+        const { status } = req.body;
 
         if (!status) return res.status(400).json({ error: "กรุณาระบุสถานะ" });
 
         const sql = "UPDATE complaints SET status = ? WHERE id = ?";
         const [result] = await db.execute(sql, [status, id]);
-        
+
         if (result.affectedRows > 0) {
             res.json({ message: "อัปเดตสถานะสำเร็จ" });
         } else {
@@ -111,29 +111,6 @@ app.put('/admin/complaints/:id/status', async (req, res) => {
     }
 });
 
-// --- 7. ลบข้อมูลร้องเรียน (Admin) ---
-app.delete('/admin/complaints/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const sql = "DELETE FROM complaints WHERE id = ?";
-        const [result] = await db.execute(sql, [id]);
-        
-        if (result.affectedRows > 0) {
-            res.json({ message: "ลบข้อมูลสำเร็จ" });
-        } else {
-            res.status(404).json({ error: "ไม่พบข้อมูลที่ต้องการลบ" });
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "ไม่สามารถลบข้อมูลได้" });
-    }
-});
-
-// เริ่มต้น Server
-const PORT = 8000;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`✅ Server is running on http://localhost:${PORT}`);
-});
 app.put('/admin/complaints/:id/status', async (req, res) => {
     try {
         const { id } = req.params;
@@ -154,4 +131,28 @@ app.put('/admin/complaints/:id/status', async (req, res) => {
         console.error(err);
         return res.status(500).json({ success: false, error: "Server Error" });
     }
+});
+
+// --- 7. ลบข้อมูลร้องเรียน (Admin) ---
+app.delete('/admin/complaints/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const sql = "DELETE FROM complaints WHERE id = ?";
+        const [result] = await db.execute(sql, [id]);
+
+        if (result.affectedRows > 0) {
+            res.json({ message: "ลบข้อมูลสำเร็จ" });
+        } else {
+            res.status(404).json({ error: "ไม่พบข้อมูลที่ต้องการลบ" });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "ไม่สามารถลบข้อมูลได้" });
+    }
+});
+
+// เริ่มต้น Server
+const PORT = 8000;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`✅ Server is running on http://localhost:${PORT}`);
 });
