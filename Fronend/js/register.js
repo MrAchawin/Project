@@ -4,6 +4,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
+    const statusMsg = document.getElementById('registerStatusMessage');
 
     if (password !== confirmPassword) {
         alert("รหัสผ่านไม่ตรงกัน!");
@@ -18,13 +19,22 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         });
 
         if (res.ok) {
-            alert("สมัครสมาชิกสำเร็จ!");
-            window.location.href = 'index.html'; // กลับหน้า Login
+            // ✅ แสดงข้อความสำเร็จเป็นสีเขียว
+            statusMsg.style.color = "#28a745";
+            statusMsg.innerText = "🎉 สมัครสมาชิกสำเร็จ!";
+
+            // หน่วงเวลา 2 วินาทีเพื่อให้ User อ่านข้อความก่อนเปลี่ยนหน้า
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
         } else {
             const data = await res.json();
-            alert(data.error);
+            // ❌ แสดงข้อความ Error เป็นสีแดง
+            statusMsg.style.color = "#dc3545";
+            statusMsg.innerText = "❌ " + (data.error || "สมัครสมาชิกไม่สำเร็จ");
         }
-    } catch (err) {
-        alert("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้");
-    }
-});
+    }catch (err) {
+            statusMsg.style.color = "#dc3545";
+            statusMsg.innerText = "⚠️ ไม่สามารถติดต่อเซิร์ฟเวอร์ได้";
+        }
+    });
