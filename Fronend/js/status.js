@@ -3,7 +3,11 @@ async function checkStatus() {
     let resultDiv = document.getElementById("result");
 
     if (!id) {
-        alert("กรุณากรอกเลขที่เรื่อง");
+        resultDiv.innerHTML = `
+            <div style="color: #d9534f; background-color: #f2dede; padding: 10px; border-radius: 8px; border: 1px solid #ebccd1; margin-top: 10px;">
+                ⚠️ กรุณากรอกเลขที่เรื่อง
+            </div>
+        `;
         return;
     }
 
@@ -22,9 +26,18 @@ async function checkStatus() {
         `;
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            resultDiv.innerHTML = "❌ ไม่พบข้อมูลเลขที่เรื่องนี้";
+            // หุ้มด้วย div และเพิ่ม margin เพื่อขยับตำแหน่ง
+            resultDiv.innerHTML = `
+                <div style="margin-top: 20px; margin-bottom: 10px; color: #333;">
+                    ❌ ไม่พบข้อมูลเลขที่เรื่องนี้
+                </div>
+            `;
         } else {
-            resultDiv.innerHTML = "เกิดข้อผิดพลาดในการเชื่อมต่อ";
+            resultDiv.innerHTML = `
+                <div style="margin-top: 20px; margin-bottom: 10px; color: red;">
+                    เกิดข้อผิดพลาดในการเชื่อมต่อ
+                </div>
+            `;
         }
     }
-}
+}    

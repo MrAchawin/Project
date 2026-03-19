@@ -21,13 +21,16 @@
                 <span id="fileName">ยังไม่ได้เลือกไฟล์</span>
             </div>
             <textarea id="detail" placeholder="รายละเอียดปัญหา" rows="4"></textarea>
-            <button class="login-btn">ส่งเรื่อง</button>
         </form>
+        <button type="button" id="submitBtn" class="login-btn">ส่งเรื่อง</button>
 
         <div id="result-container"
-            style="display: none; margin-top: 15px; padding: 10px; background-color: #e8f5e9; border-radius: 8px;">
-            <p style="margin: 0; color: #2e7d32; font-weight: bold; text-align: center;">
-                ส่งเรื่องสำเร็จ! เลขที่เรื่อง: <span id="queue-number" style="color: #1b5e20;">-</span>
+            style="display: none; margin-top: 20px; padding: 20px; background-color: #e8f5e9; 
+                    border-radius: 8px; text-align: center; border: 1px solid #c8e6c9;">
+            <p style="margin: 0; color: #2e7d32; font-weight: bold;">
+                🎉 ส่งเรื่องสำเร็จ! <br>
+                เลขที่เรื่องของคุณคือ: <span id="queue-number"
+                    style="color: #1b5e20; font-size: 1.2em; text-decoration: underline;">-</span>
             </p>
         </div>
 

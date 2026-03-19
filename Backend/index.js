@@ -111,6 +111,7 @@ app.put('/admin/complaints/:id/status', async (req, res) => {
     }
 });
 
+// --- 7. ระบบเปลี่ยนสถานะเรื่องร้องเรียน ---
 app.put('/admin/complaints/:id/status', async (req, res) => {
     try {
         const { id } = req.params;
@@ -133,7 +134,7 @@ app.put('/admin/complaints/:id/status', async (req, res) => {
     }
 });
 
-// --- 7. ลบข้อมูลร้องเรียน (Admin) ---
+// --- 8. ลบข้อมูลร้องเรียน (Admin) ---
 app.delete('/admin/complaints/:id', async (req, res) => {
     try {
         const { id } = req.params;

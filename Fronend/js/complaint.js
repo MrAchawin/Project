@@ -1,21 +1,26 @@
 window.onload = function () {
-    // ย้าย Event Listener ทั้งหมดมาไว้ในนี้
+    const submitBtn = document.getElementById("submitBtn");
+    const complaintForm = document.getElementById("complaintForm");
+
+    // เช็คใน Console ว่า JS โหลดพอร์ตปุ่มเจอไหม
+    if (!submitBtn) {
+        console.error("❌ หาปุ่มที่มี id='submitBtn' ไม่เจอในไฟล์ HTML!");
+    } else {
+        console.log("✅ เชื่อมต่อปุ่มส่งเรื่องเรียบร้อย");
+    }
+
+    // จัดการชื่อไฟล์รูปภาพ
     document.getElementById("image").addEventListener("change", function () {
         const fileName = this.files[0]?.name || "ยังไม่ได้เลือกไฟล์";
         document.getElementById("fileName").textContent = fileName;
     });
-    document.getElementById("image").addEventListener("change", function () {
-        if (this.files && this.files.length > 0) {
-            const fileName = this.files[0].name;
-            document.getElementById("fileName").textContent = fileName; // เปลี่ยนข้อความเมื่อเลือกไฟล์
-        } else {
-            document.getElementById("fileName").textContent = "ยังไม่ได้เลือกไฟล์";
-        }
-    });
 
-    document.getElementById("complaintForm").addEventListener("submit", async function (e) {
+    // ✅ ดักจับที่ปุ่มเพิ่มอีกทาง 
+    submitBtn.addEventListener("click", async function (e) {
         e.preventDefault();
+        e.stopPropagation();
         await submitComplaint();
+        return false;
     });
 
     async function submitComplaint() {
@@ -24,40 +29,44 @@ window.onload = function () {
         const detail = document.getElementById('detail').value;
         const imageFile = document.getElementById('image').files[0];
 
+        if (!name || !type) {
+            alert("กรุณากรอกชื่อและประเภทปัญหา");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("name", name);
         formData.append("type", type);
         formData.append("detail", detail);
+        if (imageFile) formData.append("image", imageFile);
 
-        if (imageFile) {
-            formData.append("image", imageFile);
-        }
         try {
+            submitBtn.disabled = true;
+            submitBtn.innerText = "กำลังส่ง...";
+
             const response = await axios.post('http://localhost:8000/complaints', formData);
 
             if (response.status === 200) {
-                const id = response.data.complaintId; // รับค่า ID จาก Backend
-
-                // 1. นำเลข ID ไปแสดงในหน้าเว็บแทนการ alert
+                const id = response.data.complaintId;
                 const resultContainer = document.getElementById('result-container');
-                const queueNumber = document.getElementById('queue-number');
 
-                queueNumber.innerText = id;          // ใส่เลข ID เข้าไปใน span
-                resultContainer.style.display = 'block'; // สั่งให้แถบสีเขียวแสดงผล
+                // 1. ใส่เลขคิวก่อน
+                document.getElementById('queue-number').innerText = id;
 
-                // 2. เคลียร์ข้อมูลในฟอร์มเพื่อให้พร้อมแจ้งเรื่องใหม่ (แต่ไม่ reload หน้า)
-                document.getElementById("complaintForm").reset();
+                // 2. แสดงกล่องสีเขียว
+                resultContainer.style.display = 'block';
+                console.log("ส่งสำเร็จ! เลขคิวคือ:", id);
+
+                // 3. ล้างฟอร์มเป็นลำดับสุดท้าย
+                complaintForm.reset();
                 document.getElementById("fileName").textContent = "ยังไม่ได้เลือกไฟล์";
-
-                // หมายเหตุ: ห้ามใส่ location.reload() นะครับ เพราะเลขจะหายทันที
             }
-        } catch (error) {
-            console.error(error);
-            alert("ส่งไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
+            } catch (error) {
+                console.error("Error details:", error);
+                alert("ส่งไม่สำเร็จ: " + (error.response?.data?.message || error.message));
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "ส่งเรื่อง";
+            }
         }
-    } // ปิดฟังก์ชัน submitComplaint
-}
-
-
-
-
+};
