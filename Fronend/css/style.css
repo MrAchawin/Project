@@ -1,389 +1,216 @@
-/* ===== การตั้งค่าพื้นฐาน (Modern Standard) ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Kanit', sans-serif; /* ใช้ฟอนต์ไทยที่ดูทันสมัย */
+    font-family: 'Kanit', sans-serif;
 }
 
-/* ลบเงาสีน้ำเงินที่เป็นค่าเริ่มต้นของ Browser */
-input:focus, textarea:focus, button:focus {
-    outline: none !important;
-}
-
-/* ===== การจัดองค์ประกอบหน้า (Layout & Background) ===== */
 body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     background: 
-        /* Overlay สีขาวอมเขียวอ่อน */
-        url("../assets/ku-bg.jpg"); /* พื้นหลังของคุณ */
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    padding: 20px;
+        linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+        url("../assets/ku-bg.jpg") center/cover no-repeat;
 }
 
-/* ===== กล่องเนื้อหาหลัก (Container/Card Style) ===== */
-.container, .login-box {
-    width: 420px;
-    max-width: 100%;
-    padding: 50px;
-    background: rgba(255, 255, 255, 1);
-    border-radius: 25px;
+/* กล่องหลัก */
+.login-box, .container {
+    width: 350px;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
     text-align: center;
-    /* การตั้งค่าเงาแบบนุ่มนวล (Soft Shadow) */
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-/* ===== โลโก้และหัวข้อ (Logo & Typography) ===== */
+/* โลโก้ */
 .logo {
-    width: 170px;
-    margin-bottom: 25px;
+    width: 120px;
+    margin-bottom: 15px;
 }
 
+/* หัวข้อ */
 h2 {
-    color: #1e8449; /* สีเขียวหลัก */
-    margin-bottom: 35px;
-    font-weight: 600;
-    font-size: 26px;
-    letter-spacing: 0.5px;
+    color: #1e8449;
+    margin-bottom: 20px;
+    font-size: 22px;
 }
 
-/* ===== ช่องกรอกข้อมูล (Inputs & Textarea) ===== */
+/* input */
 input, textarea {
     width: 100%;
-    padding: 15px 20px;
-    margin: 12px 0;
-    border-radius: 12px;
-    border: 1.5px solid #e0e0e0; /* เส้นขอบสีอ่อน */
-    font-size: 15px;
-    color: #333;
-    transition: all 0.3s ease; /* Transitions ที่นุ่มนวล */
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
 textarea {
+    height: 100px;
     resize: none;
-    height: 120px;
-    font-size: 14px;
 }
 
-/* เอฟเฟกต์เมื่อคลิกหรือโฟกัส */
 input:focus, textarea:focus {
     border-color: #27ae60;
-    box-shadow: 0 0 15px rgba(39, 174, 96, 0.15); /* เงาสีเขียวจางๆ */
+    box-shadow: 0 0 8px rgba(39,174,96,0.3);
+    outline: none;
 }
 
-/* ===== ปุ่ม (Buttons Style) ===== */
-.login-btn, .status-btn, .register-btn {
+/* ปุ่ม */
+.login-btn, .register-btn, .status-btn {
     width: 100%;
-    padding: 16px;
-    margin-top: 25px;
+    padding: 12px;
+    margin-top: 12px;
     border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #27ae60, #145a32); /* Gradient ที่ทันสมัยกว่า */
+    border-radius: 10px;
+    background: linear-gradient(135deg, #27ae60, #145a32);
     color: white;
-    font-size: 17px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
 }
 
-/* เอฟเฟกต์เมื่อเมาส์ชี้ over (Hover Effect) */
-.login-btn:hover, .status-btn:hover, .register-btn:hover {
-    transform: translateY(-3px); /* ยกปุ่มขึ้นเล็กน้อย */
-    box-shadow: 0 8px 30px rgba(39, 174, 96, 0.4);
-    filter: brightness(1.05); /* เพิ่มความสว่างเล็กน้อย */
+.login-btn:hover, .register-btn:hover, .status-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(39,174,96,0.4);
 }
 
-/* ===== ลิงก์ (Link Style) ===== */
+/* link */
 a {
-    text-decoration: none;
     color: #1e8449;
+    text-decoration: none;
     font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s;
 }
 
 a:hover {
-    color: #145a32;
     text-decoration: underline;
 }
 
-/* ===== การจัดวางกลุ่มไฟล์แนบ (File Attachment Group) ===== */
+/* upload */
 .file-group {
-    margin: 15px 0;
+    margin: 10px 0;
     text-align: left;
 }
 
-/* ปุ่มแนบรูปภาพใหม่ */
 .upload-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 50px;
-    border: 2px dashed #1e8449; /* เปลี่ยนเป็นเส้นประ (Modern Look) */
-    border-radius: 12px;
-    cursor: pointer;
-    color: #1e8449;
-    font-size: 15px;
-    background: #fdfdfd;
-    margin-top: 15px;
-    transition: all 0.3s ease;
-}
-
-/* Hover เอฟเฟกต์ปุ่มแนบรูป */
-.upload-btn:hover {
-    background: #eafaf1;
-    border-style: solid; /* เปลี่ยนเป็นเส้นทึบเมื่อชี้ */
-}
-
-/* แสดงชื่อไฟล์ */
-#fileName {
-    display: block;
-    margin-top: 8px;
-    font-size: 13px;
-    color: #777;
-    font-style: italic;
-    padding-left: 5px;
-}
-
-/* ===== ตารางแอดมิน (Admin Table Styling) ===== */
-
-/* ปรับ container สำหรับหน้า admin */
-.container.admin {
-    width: 1000px;
-    max-width: 95%;
-    padding: 40px;
-}
-
-/* ปุ่ม logout */
-.logout-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 25px;
-    background: linear-gradient(135deg, #e74c3c, #922b21);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    margin-bottom: 20px;
-    transition: all 0.3s;
-    font-size: 14px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.logout-btn:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
-}
-
-/* ตารางและส่วนห่อหุ้มตาราง (Table & Wrapper) */
-.table-wrapper {
-    max-height: 500px; /* เพิ่มความสูงในการเลื่อน */
-    overflow-y: auto;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-/* การตั้งค่าส่วนหัวตาราง (Thead) */
-thead {
-    background: linear-gradient(90deg, #2ecc71, #145a32);
-    color: white;
-}
-
-th {
-    padding: 15px;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase; /* ทำให้เป็นตัวใหญ่ทั้งหมด */
-}
-
-/* การตั้งค่าส่วนเนื้อหาตาราง (Tbody) */
-td {
-    padding: 12px;
-    font-size: 14px;
-    color: #444;
-    border-bottom: 1px solid #f0f0f0;
-    vertical-align: middle; /* จัดกลางในแนวตั้ง */
-}
-
-/* เอฟเฟกต์เมื่อเอาเมาส์ชี้เหนือแถวตาราง */
-tbody tr:hover {
-    background: #eafaf1;
-    transition: 0.2s;
-}
-
-/* รูปภาพในตาราง (Images in Table) */
-td img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
+    height: 45px;
+    border: 2px dashed #27ae60;
     border-radius: 10px;
     cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-}
-
-td img:hover {
-    transform: scale(1.1); /* ขยายรูปภาพขึ้นเล็กน้อย */
-}
-/* ===== การตั้งค่าพื้นฐาน ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Kanit', sans-serif; /* แนะนำให้ใช้ฟอนต์ Kanit เพื่อความสวยงาม */
-}
-
-body {
-    min-height: 100vh;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url("../assets/ku-bg.jpg") no-repeat center center fixed;
-    background-size: cover;
-    padding: 40px 20px;
-}
-
-/* ===== กล่องเนื้อหาหลัก (Container) ===== */
-.admin-container {
-    max-width: 1200px;
-    margin: auto;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-}
-
-h2 {
-    color: #2c3e50;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-hr {
-    border: 0;
-    height: 1px;
-    background: #eee;
-    margin-bottom: 25px;
-}
-
-/* ===== ส่วนของตาราง (Table Style) ===== */
-.table-wrapper {
-    overflow-x: auto; /* รองรับมือถือ */
-    margin-top: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden; /* ให้ขอบมนมีผล */
-}
-
-th, td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    background-color: #2c3e50;
-    color: white;
-    font-weight: 500;
-    text-transform: uppercase;
+    color: #27ae60;
     font-size: 14px;
-}
-
-/* แถวสลับสี */
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-tr:hover {
-    background-color: #eafaf1;
     transition: 0.3s;
 }
 
-/* ===== รูปภาพในตาราง (Image Preview) ===== */
-.img-preview {
-    width: 80px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    border: 1px solid #ddd;
+.upload-btn:hover {
+    background: #eafaf1;
 }
 
-.img-preview:hover {
-    transform: scale(1.1);
+#fileName {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
 }
 
-/* ===== ปุ่มต่างๆ ===== */
+/* ===== ADMIN ===== */
+.admin-container {
+    width: 95%;
+    max-width: 1200px;
+    padding: 30px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* logout */
 .logout-btn {
-    background: #e74c3c;
-    color: white;
-    padding: 10px 20px;
+    float: right;
+    padding: 10px 18px;
     border: none;
     border-radius: 8px;
+    background: #e74c3c;
+    color: white;
     cursor: pointer;
-    float: right;
-    font-weight: bold;
     transition: 0.3s;
-    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
 }
 
 .logout-btn:hover {
     background: #c0392b;
-    transform: translateY(-2px);
 }
 
-/* ล้าง float เพื่อไม่ให้กระทบส่วนอื่น */
-.admin-container::after {
-    content: "";
-    display: table;
-    clear: both;
+/* table */
+.table-wrapper {
+    margin-top: 20px;
+    overflow-x: auto;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background: #2c3e50;
+    color: white;
+    padding: 12px;
+    font-size: 13px;
+}
+
+td {
+    padding: 12px;
+    font-size: 13px;
+    border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+    background: #f2f2f2;
+}
+
+/* รูป */
+.img-preview {
+    width: 70px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ปุ่ม */
 .btn-done, .btn-delete {
-    padding: 5px 12px;
-    margin: 2px;
+    padding: 5px 10px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 13px;
-    transition: 0.2s;
+    font-size: 12px;
 }
 
 .btn-done {
-    background-color: #eafaf1;
+    background: #eafaf1;
     color: #27ae60;
-    border: 1px solid #27ae60;
-}
-
-.btn-done:hover {
-    background-color: #27ae60;
-    color: white;
 }
 
 .btn-delete {
-    background-color: #fdedec;
+    background: #fdedec;
     color: #e74c3c;
-    border: 1px solid #e74c3c;
+}
+
+.btn-done:hover {
+    background: #27ae60;
+    color: white;
 }
 
 .btn-delete:hover {
-    background-color: #e74c3c;
+    background: #e74c3c;
     color: white;
 }
