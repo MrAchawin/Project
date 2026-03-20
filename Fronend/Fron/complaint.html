@@ -8,7 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/complaint.js"></script>
-
 </head>
 
 <body>
@@ -24,23 +23,24 @@
             </div>
             <textarea id="detail" placeholder="รายละเอียดปัญหา" rows="4"></textarea>
         </form>
+
         <button type="button" id="submitBtn" class="login-btn">ส่งเรื่อง</button>
 
-        <div id="result-container"
-            style="display: none; margin-top: 20px; padding: 20px; background-color: #e8f5e9; 
-                    border-radius: 8px; text-align: center; border: 1px solid #c8e6c9;">
+        <div id="result-container" style="display: none; margin-top: 20px; padding: 20px; background-color: #e8f5e9; 
+                            border-radius: 8px; text-align: center; border: 1px solid #c8e6c9;">
             <p style="margin: 0; color: #2e7d32; font-weight: bold;">
                 🎉 ส่งเรื่องสำเร็จ! <br>
-                เลขที่เรื่องของคุณคือ: <span id="queue-number"
-                    style="color: #1b5e20; font-size: 1.2em; text-decoration: underline;">-</span>
+                เลขที่เรื่องของคุณคือ: <span id="queue-number" style="color: #1b5e20; font-size: 1.2em; text-decoration: underline;">-</span>
             </p>
         </div>
 
         <br>
-        <button class="status-btn" onclick="location.href='status.html'"
-            style="width: 100%;">เช็คสถานะร้องเรียน</button>
+        <button class="status-btn" onclick="location.href='status.html'" 
+                style="width: 100%; background-color: #28a745; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">
+            เช็คสถานะร้องเรียน
+        </button>
 
-
+    </div> 
 </body>
 
 </html>

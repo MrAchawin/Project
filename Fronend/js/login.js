@@ -4,17 +4,16 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const password = document.getElementById('password').value;
 
     try {
-        const res = await fetch('http://localhost:8000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        const data = await res.json();
-        if (!res.ok) {
-            return Swal.fire({
-                title: 'เข้าสู่ระบบไม่สำเร็จ',
-                text: data.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
-                icon: 'error'
+        const response = await axios.post('http://localhost:8000/login', { 
+        username, 
+        password 
+    });
+        const data = response.data;
+        if (response.status !== 200) { 
+        return Swal.fire({
+            title: 'เข้าสู่ระบบไม่สำเร็จ',
+            text: data.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+            icon: 'error'
             });
         }
         Swal.fire({
@@ -32,6 +31,6 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             text: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้',
             icon: 'warning'
         });
-        console.error(err);
+        console.error("Login Error:", err);
     }
 });

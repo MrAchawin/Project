@@ -2,10 +2,10 @@ const API = 'http://localhost:8000';
 
 async function loadComplaints() {
     try {
-        const res = await fetch(`${API}/admin/complaints`);
-        const data = await res.json();
+        const response = await axios.get(`${API}/admin/complaints`);
+        const data = response.data;
         const table = document.getElementById("complaintBody");
-        
+
         if (!table) return;
         table.innerHTML = "";
         data.forEach(item => {
@@ -18,9 +18,9 @@ async function loadComplaints() {
                 <td>${item.type || 'ทั่วไป'}</td>
                 <td>${item.detail}</td>
                 <td>
-                    ${item.image 
-                        ? `<img src="${API}/uploads/${item.image}" class="img-preview" onclick="viewImage(this.src)">`
-                        : '<span style="color:#ccc;">ไม่มีรูป</span>'}
+                    ${item.image
+                    ? `<img src="${API}/uploads/${item.image}" class="img-preview" onclick="viewImage(this.src)">`
+                    : '<span style="color:#ccc;">ไม่มีรูป</span>'}
                 </td>
                 <td><b style="color:${isDone ? '#27ae60' : '#f39c12'}">
                     ${item.status || 'รอดำเนินการ'}
@@ -32,7 +32,7 @@ async function loadComplaints() {
             table.appendChild(row);
         });
     } catch (err) {
-        console.error("Fetch Error:", err);
+        console.error("Load Complaints Error: ", err);
     }
 }
 window.viewImage = (src) => Swal.fire({
@@ -48,12 +48,8 @@ window.updateStatus = (id, status) => {
         showCancelButton: true
     }).then(async r => {
         if (!r.isConfirmed) return;
-        const res = await fetch(`${API}/admin/complaints/${id}/status`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status })
-        });
-        if (res.ok) {
+        const res = await axios.put(`${API}/admin/complaints/${id}/status`, { status });
+        if (res.status === 200) {
             Swal.fire({ icon: 'success', title: 'สำเร็จ!', timer: 1200, showConfirmButton: false });
             loadComplaints();
         }
@@ -68,9 +64,8 @@ window.deleteComplaint = (id) => {
     }).then(async r => {
         if (!r.isConfirmed) return;
 
-        const res = await fetch(`${API}/admin/complaints/${id}`, { method: 'DELETE' });
-
-        if (res.ok) {
+        const res = await axios.delete(`${API}/admin/complaints/${id}`);
+        if (res.status === 200) {
             Swal.fire('ลบแล้ว!', '', 'success');
             loadComplaints();
         }

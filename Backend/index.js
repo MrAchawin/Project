@@ -1,3 +1,4 @@
+const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
@@ -7,6 +8,8 @@ const db = require('./db');
 const fs = require('fs');
 
 const app = express();
+
+dotenv.config();
 
 // Middleware
 app.use(cors());
@@ -42,7 +45,10 @@ app.post('/login', async (req, res) => {
         const user = rows[0];
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ error: "รหัสผ่านผิด" });
-        res.json({ message: "Login สำเร็จ", role: user.role, username: user.username });
+        res.json({ 
+            message: "Login สำเร็จ",
+            role: user.role, 
+            username: user.username });
     } catch (err) {
         res.status(500).json({ error: "ระบบขัดข้อง" });
     }
@@ -51,7 +57,7 @@ app.post('/login', async (req, res) => {
 // --- 3. ระบบส่งเรื่องร้องเรียน ---
 app.post('/complaints', upload.single('image'), async (req, res) => {
     try {
-        const { name, type, detail } = req.body;
+        const { name, type, detail} = req.body;
         const image = req.file ? req.file.filename : null;
         const sql = "INSERT INTO complaints (name, type, detail, image, status) VALUES (?, ?, ?, ?, 'รอดำเนินการ')";
         const [result] = await db.execute(sql, [name, type, detail, image]);
@@ -129,7 +135,7 @@ app.delete('/admin/complaints/:id', async (req, res) => {
 });
 
 // เริ่มต้น Server
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ Server is running on http://localhost:${PORT}`);
 });

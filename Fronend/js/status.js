@@ -33,11 +33,14 @@ async function checkStatus() {
                 ${imageSection}
             </div>`;
     } catch (err) {
-        resultDiv.innerHTML = `
-            <div style="margin-top:20px;color:${err.response?.status === 404 ? '#333' : 'red'};">
-                ${err.response?.status === 404 
-                    ? 'ไม่พบข้อมูลเลขที่เรื่องนี้' 
-                    : 'เกิดข้อผิดพลาดในการเชื่อมต่อ'}
-            </div>`;
+        if (err.response?.status === 404) {
+            resultDiv.innerHTML =
+                `<div style="color:#333;margin-top:20px;">ไม่พบข้อมูลเลขที่เรื่องนี้</div>`;
+        } else {
+            // กรณีอื่นๆ เช่น เซิร์ฟเวอร์ล่ม หรือติดต่อไม่ได้
+            resultDiv.innerHTML =
+                `<div style="color:red;margin-top:20px;">เกิดข้อผิดพลาดในการเชื่อมต่อ</div>`;
+        }
+        console.error("Check Status Error:", err); // เปลี่ยนชื่อให้ดูเป็นสไตล์คุณ
     }
 }

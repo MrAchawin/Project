@@ -17,34 +17,29 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
         didOpen: () => Swal.showLoading()
     });
     try {
-        const res = await fetch('http://localhost:8000/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+        const response = await axios.post('http://localhost:8000/register', { 
+            username, 
+            password 
         });
-        const data = await res.json();
+
+        const data = response.data;
+        
         Swal.close();
-        if (!res.ok) {
-            return Swal.fire({
-                title: 'สมัครไม่สำเร็จ',
-                text: data.error || 'เกิดข้อผิดพลาด',
-                icon: 'error'
-            });
-        }
         Swal.fire({
             icon: 'success',
-            title: 'สมัครสมาชิกสำเร็จ!',
+            title: data.message || 'สมัครสมาชิกสำเร็จ!',
             showConfirmButton: false,
             timer: 1500
         });
-        setTimeout(() => location.href = 'index.html', 1500);
+        setTimeout(() => location.href = 'login.html', 1500);
     } catch (err) {
         Swal.close();
+        const errorText = err.response?.data?.error || 'เซิร์ฟเวอร์มีปัญหา ไม่สามารถติดต่อได้';
         Swal.fire({
             title: 'เซิร์ฟเวอร์มีปัญหา',
-            text: 'ไม่สามารถติดต่อได้',
+            text: errorText,
             icon: 'warning'
         });
-        console.error(err);
+        console.error("Register Error:", err);
     }
 });
