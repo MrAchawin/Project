@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const db = require('./db');
+const fs = require('fs');
 
 const app = express();
 
@@ -28,7 +29,6 @@ app.post('/register', async (req, res) => {
         await db.execute(sql, [username, hashedPassword]);
         res.status(201).json({ message: "สมัครสมาชิกสำเร็จ!" });
     } catch (err) {
-        console.error(err);
         res.status(500).json({ error: "ชื่อผู้ใช้นี้อาจมีคนใช้แล้ว" });
     }
 });
@@ -38,36 +38,30 @@ app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
         const [rows] = await db.execute("SELECT * FROM Login WHERE username = ?", [username]);
-
         if (rows.length === 0) return res.status(401).json({ error: "ไม่พบผู้ใช้งาน" });
-
         const user = rows[0];
         const isMatch = await bcrypt.compare(password, user.password);
-
         if (!isMatch) return res.status(401).json({ error: "รหัสผ่านผิด" });
-
         res.json({ message: "Login สำเร็จ", role: user.role, username: user.username });
     } catch (err) {
         res.status(500).json({ error: "ระบบขัดข้อง" });
     }
 });
 
-// --- 3. ระบบส่งเรื่องร้องเรียน (สำหรับ User) ---
+// --- 3. ระบบส่งเรื่องร้องเรียน ---
 app.post('/complaints', upload.single('image'), async (req, res) => {
     try {
         const { name, type, detail } = req.body;
         const image = req.file ? req.file.filename : null;
-        // เพิ่มคอลัมน์ status และกำหนดค่าเริ่มต้นเป็น 'รอดำเนินการ'
         const sql = "INSERT INTO complaints (name, type, detail, image, status) VALUES (?, ?, ?, ?, 'รอดำเนินการ')";
         const [result] = await db.execute(sql, [name, type, detail, image]);
         res.json({ complaintId: result.insertId, message: "ส่งเรื่องร้องเรียนสำเร็จ" });
     } catch (err) {
-        console.error(err);
         res.status(500).json({ error: "เกิดข้อผิดพลาดในการบันทึกข้อมูล" });
     }
 });
 
-// --- 4. ดึงข้อมูลรายบุคคล (สำหรับ User เช็คสถานะตัวเอง) ---
+// --- 4. ดึงข้อมูลรายบุคคล (User เช็คสถานะ) ---
 app.get('/complaints/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -89,65 +83,47 @@ app.get('/admin/complaints', async (req, res) => {
     }
 });
 
-// --- 6. อัปเดตสถานะ (Admin) ---
+// --- 6. อัปเดตสถานะ (รวม Logic ลบรูปภาพเมื่อเสร็จสิ้น) ---
 app.put('/admin/complaints/:id/status', async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
     try {
-        const { id } = req.params;
-        const { status } = req.body;
-
-        if (!status) return res.status(400).json({ error: "กรุณาระบุสถานะ" });
-
-        const sql = "UPDATE complaints SET status = ? WHERE id = ?";
-        const [result] = await db.execute(sql, [status, id]);
-
-        if (result.affectedRows > 0) {
-            res.json({ message: "อัปเดตสถานะสำเร็จ" });
+        if (status === 'เสร็จสิ้น') {
+            // ดึงชื่อไฟล์มาลบใน VS Code
+            const [rows] = await db.execute("SELECT image FROM complaints WHERE id = ?", [id]);
+            if (rows.length > 0 && rows[0].image) {
+                const filePath = path.join(__dirname, 'uploads', rows[0].image);
+                if (fs.existsSync(filePath)) {
+                    fs.unlinkSync(filePath);
+                    console.log(`ลบไฟล์ ${rows[0].image} เรียบร้อยแล้ว`);
+                }
+            }
+            // อัปเดต DB: เปลี่ยนสถานะ และล้างชื่อรูปเป็น NULL
+            await db.execute("UPDATE complaints SET status = ?, image = NULL WHERE id = ?", [status, id]);
         } else {
-            res.status(404).json({ error: "ไม่พบข้อมูลที่ต้องการอัปเดต" });
+            await db.execute("UPDATE complaints SET status = ? WHERE id = ?", [status, id]);
         }
+        res.json({ success: true, message: "อัปเดตสำเร็จ" });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "ไม่สามารถอัปเดตสถานะได้" });
+        res.status(500).json({ error: "Server Error" });
     }
 });
 
-// --- 7. ระบบเปลี่ยนสถานะเรื่องร้องเรียน ---
-app.put('/admin/complaints/:id/status', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { status } = req.body;
-
-        // บันทึก Log ดูใน Terminal ว่าค่าเข้าไหม
-        console.log(`Updating ID: ${id} to Status: ${status}`);
-
-        const sql = "UPDATE complaints SET status = ? WHERE id = ?";
-        const [result] = await db.execute(sql, [status, id]);
-
-        if (result.affectedRows > 0) {
-            return res.json({ success: true, message: "อัปเดตสำเร็จ" });
-        } else {
-            return res.status(404).json({ success: false, error: "ไม่พบข้อมูล ID นี้" });
-        }
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ success: false, error: "Server Error" });
-    }
-});
-
-// --- 8. ลบข้อมูลร้องเรียน (Admin) ---
+// --- 7. ลบข้อมูลร้องเรียน (รวม Logic ลบไฟล์ขยะ) ---
 app.delete('/admin/complaints/:id', async (req, res) => {
+    const { id } = req.params;
     try {
-        const { id } = req.params;
-        const sql = "DELETE FROM complaints WHERE id = ?";
-        const [result] = await db.execute(sql, [id]);
-
-        if (result.affectedRows > 0) {
-            res.json({ message: "ลบข้อมูลสำเร็จ" });
-        } else {
-            res.status(404).json({ error: "ไม่พบข้อมูลที่ต้องการลบ" });
+        const [rows] = await db.execute("SELECT image FROM complaints WHERE id = ?", [id]);
+        if (rows.length > 0 && rows[0].image) {
+            const filePath = path.join(__dirname, 'uploads', rows[0].image);
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
         }
+        await db.execute("DELETE FROM complaints WHERE id = ?", [id]);
+        res.json({ message: "ลบข้อมูลและไฟล์เรียบร้อย" });
     } catch (err) {
-        console.error(err);
         res.status(500).json({ error: "ไม่สามารถลบข้อมูลได้" });
     }
 });

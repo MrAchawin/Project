@@ -22,6 +22,16 @@ async function checkStatus() {
                 <p><b>ชื่อผู้แจ้ง:</b> ${data.name}</p>
                 <p><b>สถานะ:</b> <span style="color: blue;">${data.status}</span></p>
                 <p><b>ประเภท:</b> ${data.type}</p>
+
+                ${(data.status !== 'เสร็จสิ้น' && data.image)
+                ? `<div style="margin-top: 10px;">
+                 <b>รูปภาพประกอบ:</b><br>
+                 <img src="http://localhost:8000/uploads/${data.image}" style="width: 100%; max-width: 300px; border-radius: 5px; margin-top: 5px;">
+               </div>`
+                : data.status === 'เสร็จสิ้น'
+                    ? `<p style="color: gray; font-size: 0.9em; margin-top: 10px;"><i>* รูปภาพถูกลบออกจากระบบเนื่องจากดำเนินการเสร็จสิ้นแล้ว</i></p>`
+                    : ''
+            }
             </div>
         `;
     } catch (error) {
