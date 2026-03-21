@@ -7,7 +7,7 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
     if (password !== confirm) {
         return Swal.fire({
             title: 'ผิดพลาด!',
-            text: 'รหัสผ่านไม่ตรงกัน',
+            text: 'รหัสผ่านไม่ตรงกันใส่ใหม่',
             icon: 'error'
         });
     }
@@ -34,9 +34,9 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
         setTimeout(() => location.href = 'login.html', 1500);
     } catch (err) {
         Swal.close();
-        const errorText = err.response?.data?.error || 'เซิร์ฟเวอร์มีปัญหา ไม่สามารถติดต่อได้';
+        const errorText = err.response?.data?.error || 'เซิร์ฟเวอร์มีปัญหา';
         Swal.fire({
-            title: 'เซิร์ฟเวอร์มีปัญหา',
+            title: 'เซิร์ฟเวอร์มีปัญหานะครับบ',
             text: errorText,
             icon: 'warning'
         });

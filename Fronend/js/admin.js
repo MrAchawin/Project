@@ -58,7 +58,7 @@ window.updateStatus = (id, status) => {
 window.deleteComplaint = (id) => {
     Swal.fire({
         title: 'ลบเลย?',
-        text: 'ข้อมูลจะหายถาวร',
+        text: 'ข้อมูลจะหายถาวรแน่นนนใจนะ',
         icon: 'warning',
         showCancelButton: true
     }).then(async r => {

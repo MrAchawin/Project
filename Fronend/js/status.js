@@ -10,7 +10,6 @@ async function checkStatus() {
     }
     try {
         const { data } = await axios.get(`http://localhost:8000/complaints/${id}`);
-
         let imageSection = '';
         if (data.status !== 'เสร็จสิ้น' && data.image) {
             imageSection = `
@@ -24,7 +23,6 @@ async function checkStatus() {
                 <i>* รูปภาพถูกลบออกจากระบบเนื่องจากดำเนินการเสร็จสิ้นแล้ว</i>
             </p>`;
         }
-
         resultDiv.innerHTML = `
             <div style="text-align:left;padding:10px;border:1px solid #ddd;border-radius:8px;margin-top:10px;">
                 <p><b>ชื่อผู้แจ้ง:</b> ${data.name}</p>
@@ -37,10 +35,10 @@ async function checkStatus() {
             resultDiv.innerHTML =
                 `<div style="color:#333;margin-top:20px;">ไม่พบข้อมูลเลขที่เรื่องนี้</div>`;
         } else {
-            // กรณีอื่นๆ เช่น เซิร์ฟเวอร์ล่ม หรือติดต่อไม่ได้
+           
             resultDiv.innerHTML =
                 `<div style="color:red;margin-top:20px;">เกิดข้อผิดพลาดในการเชื่อมต่อ</div>`;
         }
-        console.error("Check Status Error:", err); // เปลี่ยนชื่อให้ดูเป็นสไตล์คุณ
+        console.error("Check Status Error:", err);
     }
 }

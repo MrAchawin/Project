@@ -6,7 +6,7 @@ window.onload = () => {
 
     if (!submitBtn) return console.error("ไม่พบปุ่ม submitBtn");
     fileInput?.addEventListener("change", () => {
-        fileNameText.textContent = fileInput.files[0]?.name || "ยังไม่ได้เลือกไฟล์";
+        fileNameText.textContent = fileInput.files[0]?.name || "ยังไม่ได้เลือกรูปไฟล์";
     });
     submitBtn.addEventListener("click", async (e) => {
         e.preventDefault();
@@ -26,7 +26,7 @@ window.onload = () => {
             return Swal.fire({
                 icon: 'warning',
                 title: 'กรอกข้อมูลไม่ครบ',
-                text: 'กรุณากรอกชื่อและประเภทปัญหา'
+                text: 'กรุณากรอกชื่อและปัญหา'
             });
         }
         const formData = new FormData();

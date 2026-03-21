@@ -12,7 +12,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         if (response.status !== 200) { 
         return Swal.fire({
             title: 'เข้าสู่ระบบไม่สำเร็จ',
-            text: data.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+            text: data.message || 'ใส่ชื่อผู้ใช้หรือรหัสผ่านไม่ครบถ้วน',
             icon: 'error'
             });
         }
@@ -27,8 +27,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         });
     } catch (err) {
         Swal.fire({
-            title: 'เกิดข้อผิดพลาด',
-            text: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้',
+            title: 'รหัสผ่านไม่ถุกต้อง',
+            text: 'ไม่โปรดกรอกใหม่นะครับ',
             icon: 'warning'
         });
         console.error("Login Error:", err);
