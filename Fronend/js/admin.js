@@ -26,8 +26,8 @@ async function loadComplaints() {
                     ${item.status || 'รอดำเนินการ'}
                 </b></td>
                 <td>
-                    ${!isDone ? `<button onclick="updateStatus(${item.id}, 'เสร็จสิ้น')" class="btn-done">✅ เสร็จสิ้น</button>` : ''}
-                    <button onclick="deleteComplaint(${item.id})" class="btn-delete">🗑️ ลบ</button>
+                    ${!isDone ? `<button onclick="updateStatus(${item.id}, 'เสร็จสิ้น')" class="btn-done">เสร็จสิ้น</button>` : ''}
+                    <button onclick="deleteComplaint(${item.id})" class="btn-delete">ลบ</button>
                 </td>`;
             table.appendChild(row);
         });
@@ -76,7 +76,7 @@ window.logout = () => {
         title: 'ออกจากระบบ?',
         icon: 'question',
         showCancelButton: true
-    }).then(r => r.isConfirmed && (location.href = "index.html"));
+    }).then(r => r.isConfirmed && (location.href = "login.html"));
 };
 
 document.addEventListener("DOMContentLoaded", loadComplaints);
